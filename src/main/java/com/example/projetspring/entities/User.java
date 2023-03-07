@@ -16,7 +16,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class user implements Serializable {
+public class User implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
@@ -29,7 +29,5 @@ public class user implements Serializable {
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<event> events;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Image> images;
+
 }

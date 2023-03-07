@@ -16,6 +16,7 @@ public class ServiceIml implements IService {
     private final UserRepository userRepository;
     private final ProjectRepository projectRepository;
     private final TeamRepository teamRepository;
+    private final FollowedRepository followedRepository;
     private final PaternshipRepository paternshipRepository;
     private final ThematicRepository thematicRepository;
     @Override
@@ -35,8 +36,8 @@ public class ServiceIml implements IService {
     }
 
     @Override
-    public user assignusertoevent( Integer id, Integer idEv) {
-        user u =userRepository.findById(id).orElse(null);
+    public User assignusertoevent(Integer id, Integer idEv) {
+        User u =userRepository.findById(id).orElse(null);
         event e = eventRepository.findById(idEv).orElse(null);
         Set<event> events=new HashSet<>();
         events.add(e);
@@ -78,10 +79,10 @@ public class ServiceIml implements IService {
 
     @Override
     public void assignusertoteam(Integer id, Integer idT) {
-        user u=userRepository.findById(id).orElse(null);
+        User u=userRepository.findById(id).orElse(null);
         team T=teamRepository.findById(idT).orElse(null);
         if (T.getUserSet()==null) {
-            Set<user> userSet = new HashSet<>();
+            Set<User> userSet = new HashSet<>();
             userSet.add(u);
             T.setUserSet(userSet);
         }
@@ -90,7 +91,7 @@ public class ServiceIml implements IService {
 
     }
     public void notassignusertoteam(Integer id, Integer idT) {
-        user u = userRepository.findById(id).orElse(null);
+        User u = userRepository.findById(id).orElse(null);
         team T = teamRepository.findById(idT).orElse(null);
 
         T.setUserSet(null);
@@ -132,4 +133,25 @@ public class ServiceIml implements IService {
         t.setProjects(p);
         return teamRepository.save(t);
     }
+
+
+    @Override
+    public followed addfollowed(followed f) {
+        return followedRepository.save(f);
+    }
+
+    @Override
+    public String deletefollowed(Integer id) {
+        return ("followed deleted");
+    }
+
+    @Override
+    public List<followed> retreivefollowed() {
+        return followedRepository.findAll();
+    }
+    public List<followed> getProductWithHighestPrice() {
+        return followedRepository.findTop3ByOrderByNoteDesc();
+    }
+
+
 }
